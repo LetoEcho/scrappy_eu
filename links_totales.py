@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 # URL de la página web
-url = 'https://elpais.com/internacional/elecciones/europeas/19/01/41/'
+url = 'https://elpais.com/internacional/elecciones/europeas/19/01/18/'
 
 # Realizar la solicitud GET a la página web
 response = requests.get(url)

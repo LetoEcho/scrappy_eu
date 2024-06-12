@@ -8,9 +8,9 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Nombre del archivo de texto
-orden='03'
+orden='06'
 comunidad='andalucia'
-provincia='cordoba'
+provincia='jaen'
 nombre_archivo = orden+comunidad+'-'+provincia+'.txt'
 
 # Lista para almacenar las líneas del archivo
