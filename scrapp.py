@@ -8,9 +8,9 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Nombre del archivo de texto
-orden='11'
-comunidad='aragon'
-provincia='zaragoza'
+orden='21'
+comunidad='cataluna'
+provincia='barcelona'
 nombre_archivo = orden+comunidad+'-'+provincia+'.txt'
 
 # Lista para almacenar las líneas del archivo
@@ -55,17 +55,17 @@ for linea in lineas:
         # Obtener el texto del nombre del municipio
         municipio_nombre = municipio_element.text.split('/')[0].strip()  # Eliminar "/ Municipio" y espacios en blanco
 
-        print("Nombre del municipio:", municipio_nombre)
+        # print("Nombre del municipio:", municipio_nombre)
 
         tabla = 'Resultados por partido en ' + municipio_nombre
-        print(tabla)
+        # print(tabla)
         # Utiliza format() para insertar el valor de tabla en el XPath
         xpath_selector = "//table[caption[text()='{}']]".format(tabla)
 
         # Esperar hasta que la tabla específica esté presente
         table = wait.until(EC.presence_of_element_located((By.XPATH, xpath_selector)))
 
-        lista_partidos=['FO','AGRUPACIÓN DE ELECTORES SE ACABÓ LA FIESTA','IZQESP','PP','PSOE','VOX','SUMAR','PODEMOS']
+        lista_partidos=['PP','PSOE','VOX','AGRUPACIÓN DE ELECTORES SE ACABÓ LA FIESTA','SUMAR','PODEMOS','FO','IZQESP']
         for partido in lista_partidos:
             try:
                 xpath_partido=".//tr[th[abbr='{}']]".format(partido)
@@ -78,8 +78,8 @@ for linea in lineas:
                 porcentaje_2024 = partido_row.find_element(By.XPATH, "./td[2]/span").text
                 porcentaje_sin_simbolo = porcentaje_2024.rstrip('%').strip()
 
-                print("Votos "+partido+" 2024:", votos_2024)
-                print("Porcentaje "+partido+" 2024:", porcentaje_sin_simbolo)
+                # print("Votos "+partido+" 2024:", votos_2024)
+                # print("Porcentaje "+partido+" 2024:", porcentaje_sin_simbolo)
 
                 # Nombre del archivo CSV
                 nombre_archivo_csv = 'datos_municipios.csv'
@@ -90,10 +90,10 @@ for linea in lineas:
                     # Escribir los datos
                     escritor_csv.writerow([comunidad,provincia,municipio_nombre, partido,votos_2024, porcentaje_sin_simbolo])
 
-                print("Los datos han sido guardados en el archivo:", nombre_archivo_csv)
+                # print("Los datos han sido guardados en el archivo:", nombre_archivo_csv)
 
             except Exception:
-                print(f"No se encontró el partido {partido} en la página: {base_url}")
+                # print(f"No se encontró el partido {partido} en la página: {base_url}")
                 # Nombre del archivo CSV
                 nombre_archivo_csv = 'datos_municipios.csv'
 
@@ -105,7 +105,7 @@ for linea in lineas:
                 # Continuar con el siguiente partido
 
     except TimeoutException:
-            print(f"No se pudieron encontrar los elementos en el tiempo especificado para la URL: {base_url}")
+            # print(f"No se pudieron encontrar los elementos en el tiempo especificado para la URL: {base_url}")
             # Nombre del archivo CSV
             nombre_archivo_csv = 'datos_municipios.csv'
 
@@ -113,10 +113,10 @@ for linea in lineas:
             with open(nombre_archivo_csv, 'a', newline='', encoding='utf-8') as archivo_csv:
                 escritor_csv = csv.writer(archivo_csv, delimiter='|')
                 # Escribir los datos
-                escritor_csv.writerow([comunidad,provincia,municipio_nombre, partido,votos_2024, porcentaje_sin_simbolo])
+                escritor_csv.writerow([comunidad,provincia,municipio_nombre, partido,0, 0])
             
     except Exception as e:
-            print(f"Error en la URL: {base_url} - {str(e)}")  
+            # print(f"Error en la URL: {base_url} - {str(e)}")  
             # Nombre del archivo CSV
             nombre_archivo_csv = 'datos_municipios.csv'
 
